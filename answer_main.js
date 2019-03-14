@@ -6,20 +6,20 @@ Vue.component('product', {
     props: {
         premium: {
             type: Boolean,
-            required: true,
+            required: true
         }
     },
     template: `
         <div class="product">
 
             <div class="product-image">
-                <img v-bind:src="image" :alt="altText" />
+                <img :src="image" />
             </div>
 
             <div class="product-info">
                 <h1>{{ product }}</h1>
                 <p v-if="inStock">In Stock</p>
-                <p v-else="inStock" :class="{ outOfStock: !inStock }">Out of Stock</p>
+                <p v-else>Out of Stock</p>
                 <p>Shipping: {{ shipping }}</p>
 
                 <ul>
@@ -38,7 +38,7 @@ Vue.component('product', {
                         :disabled="!inStock"
                         :class="{ disabledButton: !inStock }"
                         >
-                    Add to Cart
+                    Add to cart
                 </button>
 
             </div>
@@ -52,23 +52,22 @@ Vue.component('product', {
             product: 'Socks',
             brand: 'Vue Mastery',
             selectedVariant: 0,
-            details: ["80% cotton", "20% polyester", "Gender-neutral"],
-            variants:[
+            details: ['80% cotton', '20% polyester', 'Gender-neutral'],
+            variants: [
                 {
                     variantId: 2234,
-                    variantColor: "green",
-                    variantImage: './assets/vmSocks-green.jpg',
+                    variantColor: 'green',
+                    variantImage: 'https://www.vuemastery.com/images/challenges/vmSocks-green-onWhite.jpg',
                     variantQuantity: 10
                 },
                 {
                     variantId: 2235,
-                    variantColor: "blue",
-                    variantImage: './assets/vmSocks-blue.jpg',
+                    variantColor: 'blue',
+                    variantImage: 'https://www.vuemastery.com/images/challenges/vmSocks-blue-onWhite.jpg',
                     variantQuantity: 0
-                },
+                }
             ],
-            reviews: [],
-            altText: 'A pair of socks',
+            reviews: []
         }
     },
     methods: {
@@ -77,10 +76,10 @@ Vue.component('product', {
         },
         updateProduct(index) {
             this.selectedVariant = index
-        },
+        }
     },
     computed: {
-        title(){
+        title() {
             return this.brand + ' ' + this.product
         },
         image(){
@@ -89,22 +88,22 @@ Vue.component('product', {
         inStock(){
             return this.variants[this.selectedVariant].variantQuantity
         },
-        shipping(){
-            if(this.premium){
-                return "Free"
+        shipping() {
+            if (this.premium) {
+              return "Free"
             }
-            return 2.99
+              return 2.99
         }
     },
     mounted() {
         eventBus.$on('review-submitted', productReview => {
             this.reviews.push(productReview)
         })
-    }
-})
+      }
+  })
 
 
-Vue.component('product-review', {
+  Vue.component('product-review', {
     template: `
         <form class="review-form" @submit.prevent="onSubmit">
 
@@ -119,18 +118,18 @@ Vue.component('product-review', {
             </p>
 
             <p>
-              <label for="rating">Rating:</label>
-              <select class="rating" v-model.number="rating">
-                <option>5</option>
-                <option>4</option>
-                <option>3</option>
-                <option>2</option>
-                <option>1</option>
-              </select>
+                <label for="rating">Rating:</label>
+                <select class="rating" v-model.number="rating">
+                    <option>5</option>
+                    <option>4</option>
+                    <option>3</option>
+                    <option>2</option>
+                    <option>1</option>
+                </select>
             </p>
 
             <p>
-              <input type="submit" value="Submit">
+                <input type="submit" value="Submit">
             </p>
 
        </form>
@@ -169,38 +168,38 @@ Vue.component('product-review', {
 
 Vue.component('product-tabs', {
     props: {
-        reviews:{
+        reviews: {
             type: Array,
             required: false
         }
     },
     template: `
-        <div>
+      <div>
 
-            <div>
-                <span class="tabs"
+        <div>
+            <span class="tabs"
                     :class="{ activeTab: selectedTab === tab }"
                     v-for="(tab, index) in tabs"
                     :key="index"
                     @click="selectedTab = tab">{{ tab }}</span>
-            </div>
-
-            <div v-show="selectedTab === 'Reviews'">
-                <p v-if="!reviews.length">There are no reviews yet.</p>
-                <ul v-else>
-                    <li v-for="review in reviews">
-                        <p>{{ review.name }}</p>
-                        <p>Rating:{{ review.rating }}</p>
-                        <p>{{ review.review }}</p>
-                    </li>
-                </ul>
-            </div>
-
-            <div v-show="selectedTab === 'Make a Review'">
-                <product-review></product-review>
-            </div>
-
         </div>
+
+        <div v-show="selectedTab === 'Reviews'">
+            <p v-if="!reviews.length">There are no reviews yet.</p>
+            <ul v-else>
+                <li v-for="review in reviews">
+                    <p>{{ review.name }}</p>
+                    <p>Rating:{{ review.rating }}</p>
+                    <p>{{ review.review }}</p>
+                </li>
+            </ul>
+        </div>
+
+        <div v-show="selectedTab === 'Make a Review'">
+            <product-review></product-review>
+        </div>
+
+      </div>
     `,
     data() {
         return {
@@ -215,11 +214,11 @@ var app = new Vue({
     el: '#app',
     data: {
         premium: true,
-        cart: [],
+        cart: []
     },
-    methods:{
-        updateCart(id){
-            this.cart.push(id)
-        },
+    methods: {
+        updateCart(id) {
+          this.cart.push(id)
+        }
     }
 })
